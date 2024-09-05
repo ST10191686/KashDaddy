@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "908145330554",
+    "project_id": "kashdaddy-ad39d",
+    "storage_bucket": "kashdaddy-ad39d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908145330554:android:6408329c2dda17d784eec3",
+        "android_client_info": {
+          "package_name": "com.example.kashdaddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn8CEnNydcfhBIblgZPKLtfGNYcuSHGrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
