@@ -3,50 +3,45 @@ package com.example.kashdaddy
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 
 class ResourcesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_resources)
+        setContentView(R.layout.activity_resources) // Ensure you are referencing the correct layout
+    }
 
-        // Reference to the article and video containers
-        val expenseManagement = findViewById<LinearLayout>(R.id.expense_management)
-        val budgetBasics = findViewById<LinearLayout>(R.id.budget_basics)
-        val personalBudget = findViewById<LinearLayout>(R.id.personal_budget)
-        val maximizeSavings = findViewById<LinearLayout>(R.id.maximize_savings)
-        val budgetingBasicsVideo = findViewById<LinearLayout>(R.id.budgeting_basics_video)
-
-        // Set click listeners to open external URLs in the browser
-        expenseManagement.setOnClickListener {
-            openWebPage("https://www.example.com/expense-management")
+    // Function to handle article clicks
+    fun onArticleClick(view: View) {
+        val url = when (view.id) {
+            R.id.expense_management -> "https://www.rydoo.com/cfo-corner/what-is-expense-management/"
+            R.id.budget_basics -> "https://bettermoneyhabits.bankofamerica.com/en/saving-budgeting/creating-a-budget"
+            R.id.personal_budget -> "https://dfr.oregon.gov/financial/manage/pages/budget.aspx"
+            R.id.maximize_savings -> "https://fastercapital.com/content/Top-10-Tips-for-Maximizing-Your-Savings-Account.html"
+            else -> ""
         }
 
-        budgetBasics.setOnClickListener {
-            openWebPage("https://www.example.com/budget-basics")
-        }
-
-        personalBudget.setOnClickListener {
-            openWebPage("https://www.example.com/personal-budget")
-        }
-
-        maximizeSavings.setOnClickListener {
-            openWebPage("https://www.example.com/maximize-savings")
-        }
-
-        budgetingBasicsVideo.setOnClickListener {
-            openWebPage("https://www.example.com/budgeting-basics-video")
+        if (url.isNotEmpty()) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
     }
 
-    // Function to open a webpage in the browser
-    private fun openWebPage(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        if (intent.resolveActivity(packageManager) != null) {
+    // Function to handle video clicks
+    fun onVideoClick(view: View) {
+        val videoUrl = when (view.id) {
+            R.id.budgeting_basics_video -> "https://www.youtube.com/watch?v=sVKQn2I4HDM"
+            else -> ""
+        }
+
+        if (videoUrl.isNotEmpty()) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(videoUrl)
             startActivity(intent)
         }
     }
 }
+
