@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,25 +51,49 @@ class TransactionsActivity : AppCompatActivity() {
     private fun showAddTransactionLayout() {
         setContentView(R.layout.activity_add_transactions)
 
+        // Initialize spinners with data
+        val sentReceivedSpinner = findViewById<Spinner>(R.id.sentReceivedSpinner)
+        val categorySpinner = findViewById<Spinner>(R.id.categorySpinner)
+
+        // Sample data for the spinners
+        val sentReceivedOptions = arrayOf("Sent", "Received")
+        val categoryOptions = arrayOf("Food", "Transport", "Entertainment", "Other")
+
+        // Set up ArrayAdapters for the spinners
+        val sentReceivedAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sentReceivedOptions)
+        sentReceivedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sentReceivedSpinner.adapter = sentReceivedAdapter
+
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryOptions)
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = categoryAdapter
+
         // Handle the Add Transaction button click
         val addTransactionButton = findViewById<Button>(R.id.addTransactionButton)
         addTransactionButton.setOnClickListener {
-            // Save the transaction and switch back to the transactions list
             saveTransaction()
         }
     }
 
+
     // Method to save a new transaction
     private fun saveTransaction() {
-        // Make sure these IDs match the actual IDs in your activity_add_transactions.xml
-        val title = findViewById<EditText>(R.id.titleEditText).text.toString()
+        // Get input data
+        val title = findViewById<EditText>(R.id.titleEditText).text.toString().trim()
         val amount = findViewById<EditText>(R.id.amountEditText).text.toString().toDoubleOrNull() ?: 0.0
-        val date = findViewById<EditText>(R.id.dateEditText).text.toString()
+        val date = findViewById<EditText>(R.id.dateEditText).text.toString().trim()
         val type = findViewById<Spinner>(R.id.sentReceivedSpinner).selectedItem.toString()
-        val toFrom = findViewById<EditText>(R.id.toFromEditText).text.toString()
+        val toFrom = findViewById<EditText>(R.id.toFromEditText).text.toString().trim()
         val category = findViewById<Spinner>(R.id.categorySpinner).selectedItem.toString()
-        val description = findViewById<EditText>(R.id.descriptionEditText).text.toString()
+        val description = findViewById<EditText>(R.id.descriptionEditText).text.toString().trim()
 
+        if (title.isEmpty() || date.isEmpty() || toFrom.isEmpty() || category.isEmpty()) {
+            // Show error message
+            Toast.makeText(this, "Please fill all required fields.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Create a new Transaction object
         val newTransaction = Transaction(
             title = title,
             amount = amount,
@@ -78,13 +104,14 @@ class TransactionsActivity : AppCompatActivity() {
             description = description
         )
 
-        // Save the new transaction to Firebase
+        // Save to Firebase
         val databaseReference = FirebaseDatabase.getInstance().getReference("transactions")
         val transactionId = databaseReference.push().key
         if (transactionId != null) {
             databaseReference.child(transactionId).setValue(newTransaction).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    // Successfully saved, switch back to transaction history layout
+                    Toast.makeText(this, "Transaction added successfully.", Toast.LENGTH_SHORT).show()
+                    // Switch back to transaction history layout
                     setContentView(R.layout.activity_transactions)
                     recyclerView = findViewById(R.id.transactions_recycler_view)
                     recyclerView.layoutManager = LinearLayoutManager(this)
@@ -92,10 +119,13 @@ class TransactionsActivity : AppCompatActivity() {
                     loadTransactions() // Reload transactions to include the new one
                 } else {
                     // Handle save failure
+                    Toast.makeText(this, "Failed to add transaction.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
+
+
 
 
     // Method to load transactions from the database
@@ -116,9 +146,11 @@ class TransactionsActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle possible errors
+                Toast.makeText(this@TransactionsActivity, "Failed to load transactions.", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
 
     // Data class to represent a Transaction
     data class Transaction(
