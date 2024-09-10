@@ -62,4 +62,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth:22.1.1") // Firebase Authentication
     implementation("com.google.android.gms:play-services-auth:20.7.0") // Google Sign-In
 
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }

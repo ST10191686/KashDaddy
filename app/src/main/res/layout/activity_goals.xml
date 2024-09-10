@@ -5,8 +5,56 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- RecyclerView for displaying goals -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/goal_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Button to add new goals -->
+    <Button
+        android:id="@+id/add_goal_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Goal"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:textColor="@android:color/white"/>
+
+    <!-- Hidden layout for adding new goals -->
+    <LinearLayout
+        android:id="@+id/add_goal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#E0E0E0">
+
+        <EditText
+            android:id="@+id/goal_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Goal Name"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/goal_target_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Target Amount"
+            android:inputType="number"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/save_goal_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Goal"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </LinearLayout>
