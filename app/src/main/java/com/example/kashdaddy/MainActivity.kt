@@ -1,12 +1,16 @@
 package com.example.kashdaddy
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -17,8 +21,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import android.widget.EditText
-import android.widget.Toast
 import com.google.android.gms.common.SignInButton
 
 class MainActivity : AppCompatActivity() {
@@ -26,9 +28,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var sharedPreferences: SharedPreferences
     private val RC_SIGN_IN = 9001
     private val TAG = "MainActivity"
     private lateinit var btnLogin: Button
+    private lateinit var rememberMeCheckBox: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +43,18 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
-        // Check if user is already logged in
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            // User is already logged in, navigate to home screen
-            navigateToHome()
-            finish()
-            return
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
+
+        // Check if "Remember Me" is enabled
+        if (sharedPreferences.getBoolean("rememberMe", false)) {
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                // User is already logged in, navigate to home screen
+                navigateToHome()
+                finish()
+                return
+            }
         }
 
         setContentView(R.layout.activity_login)
@@ -58,10 +67,11 @@ class MainActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Initialize buttons
+        // Initialize buttons and other UI components
         btnLogin = findViewById(R.id.btn_login)
         val registerButton: Button = findViewById(R.id.btn_register)
         val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
+        rememberMeCheckBox = findViewById(R.id.cb_remember_me)
 
         // Set up Google Sign-In button click listener
         googleSignInButton.setOnClickListener {
@@ -120,6 +130,8 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
+                    // Save "Remember Me" state
+                    saveRememberMeState()
                     updateUI(user)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -136,12 +148,21 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
+                    // Save "Remember Me" state
+                    saveRememberMeState()
                     updateUI(user)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     updateUI(null)
                 }
             }
+    }
+
+    private fun saveRememberMeState() {
+        val rememberMe = rememberMeCheckBox.isChecked
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("rememberMe", rememberMe)
+        editor.apply()
     }
 
     private fun updateUI(user: FirebaseUser?) {

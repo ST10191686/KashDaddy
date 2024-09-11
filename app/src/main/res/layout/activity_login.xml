@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".LoginActivity">
+    tools:context=".MainActivity">
 
     <!-- Title TextView -->
     <TextView
@@ -39,13 +39,22 @@
         android:inputType="textPassword"
         android:minHeight="48dp" />
 
+    <!-- Remember Me CheckBox -->
+    <CheckBox
+        android:id="@+id/cb_remember_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_password"
+        android:layout_marginBottom="16dp"
+        android:text="Remember Me" />
+
     <!-- Login Button -->
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:layout_below="@id/et_password"
+        android:layout_below="@id/cb_remember_me"
         android:layout_marginBottom="16dp"
         tools:ignore="VisualLintButtonSize" />
 
