@@ -1,5 +1,6 @@
 package com.example.kashdaddy
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var changePasswordEditText: EditText
     private lateinit var appLockSwitch: Switch
     private lateinit var updateSettingsButton: Button
+    private lateinit var logoutButton: Button // Added LogoutButton
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val database: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
@@ -48,13 +50,26 @@ class SettingsActivity : AppCompatActivity() {
         changePasswordEditText = findViewById(R.id.changePasswordEditText)
         appLockSwitch = findViewById(R.id.appLockSwitch)
         updateSettingsButton = findViewById(R.id.updateSettingsButton)
+        logoutButton = findViewById(R.id.LogoutButton) // Find the logout button
 
         // Load user data
         loadUserData()
 
-        // Handle button click
+        // Handle update settings button click
         updateSettingsButton.setOnClickListener {
             updateChanges()
+        }
+
+        // Handle logout button click
+        logoutButton.setOnClickListener {
+            firebaseAuth.signOut() // Sign out the user
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+
+            // Redirect to login screen or main screen after logout
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish() // Close the current activity
         }
     }
 

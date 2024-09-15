@@ -4,30 +4,65 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="#FFF"
     android:layout_marginBottom="8dp">
 
+    <!-- Goal Name -->
     <TextView
         android:id="@+id/goal_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Goal Name"
-        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
 
-    <ProgressBar
-        android:id="@+id/goal_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"
-        style="?android:attr/progressBarStyleHorizontal"/>
-
+    <!-- Goal Category -->
     <TextView
-        android:id="@+id/goal_progress_text"
+        android:id="@+id/goal_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 / 1000"
-        android:layout_marginTop="8dp"/>
+        android:text="Category"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Money Saved / Target -->
+    <TextView
+        android:id="@+id/goal_saved_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="70/100"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/goal_progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="100" />
+
+    <!-- Time Remaining -->
+    <TextView
+        android:id="@+id/goal_time_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 months remaining"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_red_light" />
+
+    <!-- Date to Achieve Goal -->
+    <TextView
+        android:id="@+id/goal_due_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Achieve by: 12/12/2024"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>
