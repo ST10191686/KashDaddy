@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- CalendarView for selecting dates -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -12,55 +13,63 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp" />
 
-    <!-- TextView for showing selected date -->
     <TextView
         android:id="@+id/selectedDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/calendarView"
         android:layout_marginTop="12dp"
+        android:hint="@string/date_selected"
+        android:textSize="20sp"
+        android:textColor="@color/white"
         android:layout_marginBottom="8dp"
-        android:text="Selected Date: None" />
+        />
 
-    <!-- TextView for displaying the reminder label -->
+
     <TextView
         android:id="@+id/RemindersTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/selectedDateTextView"
         android:layout_marginTop="8dp"
-        android:text="Reminders:"
+        android:text="@string/reminders"
         android:textSize="18sp" />
 
-    <!-- ScrollView containing LinearLayout for displaying reminders -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/RemindersTextView"
         android:layout_above="@id/addReminderButton"
+        android:layout_below="@id/RemindersTextView"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"
+        android:background="#FFFFFF"
+        tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
             android:id="@+id/remindersContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:orientation="vertical"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:background="#FFFFFF">
+        </LinearLayout>
     </ScrollView>
 
-    <!-- Button to add a new reminder -->
+
     <Button
         android:id="@+id/addReminderButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Reminder"
+        android:text="@string/add_reminder"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/light_green"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"/>
 
-    <!-- Hidden form for adding reminders -->
     <LinearLayout
         android:id="@+id/reminderForm"
         android:layout_width="match_parent"
@@ -68,20 +77,23 @@
         android:orientation="vertical"
         android:visibility="gone"
         android:padding="16dp"
-        android:background="@android:color/background_light"
+        android:background="@android:color/darker_gray"
         android:layout_above="@id/addReminderButton">
 
         <EditText
             android:id="@+id/reminderTitleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Reminder Title"/>
+            android:textColor="@color/black"
+            android:hint="@string/reminder_title"
+            tools:ignore="TextFields" />
 
         <EditText
             android:id="@+id/reminderAmountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount Needed"
+            android:hint="@string/amount_needed"
+            android:textColor="@color/black"
             android:inputType="numberDecimal"
             android:layout_marginTop="8dp"/>
 
@@ -89,7 +101,9 @@
             android:id="@+id/saveReminderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/light_green"
             android:layout_gravity="end"
             android:layout_marginTop="16dp"/>
     </LinearLayout>

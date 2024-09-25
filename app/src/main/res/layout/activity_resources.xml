@@ -1,8 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="16dp">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,29 +11,31 @@
         android:focusable="true">
 
         <!-- Title -->
+
         <TextView
             android:id="@+id/finance_guide_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Finance Guide"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:background="@color/light_green"
-            android:padding="16dp"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/header_bg"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Finance Guide"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
         <!-- Articles Section -->
         <TextView
             android:id="@+id/articles_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Articles"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:layout_marginBottom="8dp" />
 
         <GridLayout
@@ -52,7 +53,7 @@
                 android:layout_columnWeight="1"
                 android:orientation="vertical"
                 android:layout_margin="8dp"
-                android:background="@android:color/holo_green_light"
+                android:background="@color/light_green"
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="Expense Management"
                     android:textSize="16sp"
-                    android:textColor="#000000"
+                    android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
@@ -79,31 +80,31 @@
             <LinearLayout
                 android:id="@+id/budget_basics"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="112dp"
                 android:layout_columnWeight="1"
-                android:orientation="vertical"
                 android:layout_margin="8dp"
-                android:background="@android:color/holo_green_light"
-                android:padding="16dp"
+                android:background="@color/light_green"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="onArticleClick"> <!-- Add this line -->
+                android:onClick="onArticleClick"
+                android:orientation="vertical"
+                android:padding="16dp"> <!-- Add this line -->
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_info_details"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:src="@android:drawable/ic_menu_info_details" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Budget Basics"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:layout_gravity="center_horizontal" />
+                    android:text="Budget Basics"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <!-- Personal Budget -->
@@ -114,7 +115,7 @@
                 android:layout_columnWeight="1"
                 android:orientation="vertical"
                 android:layout_margin="8dp"
-                android:background="@android:color/holo_green_light"
+                android:background="@color/light_green"
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -132,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="How to Create a Personal Budget"
                     android:textSize="16sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
@@ -145,7 +146,7 @@
                 android:layout_columnWeight="1"
                 android:orientation="vertical"
                 android:layout_margin="8dp"
-                android:background="@android:color/holo_green_light"
+                android:background="@color/light_green"
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -163,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:text="10 Tips to Maximize Savings"
                     android:textSize="16sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
@@ -173,8 +174,9 @@
         <!-- Videos Section -->
         <TextView
             android:id="@+id/videos_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Videos"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -187,11 +189,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@android:color/holo_green_light"
+            android:background="@color/light_green"
             android:padding="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onVideoClick"> <!-- Add this line -->
+            android:onClick="onVideoClick">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -213,7 +217,7 @@
                     android:text="Budgeting Basics"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -221,14 +225,14 @@
                     android:layout_height="wrap_content"
                     android:text="This guide covers budgeting basics to start your journey."
                     android:textSize="14sp"
-                    android:textColor="#7D7D7D" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/play_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Play"
-                    android:textColor="@android:color/holo_green_dark"
+                    android:textColor="@color/white"
                     android:background="?attr/selectableItemBackground"
                     android:layout_marginTop="8dp" />
             </LinearLayout>

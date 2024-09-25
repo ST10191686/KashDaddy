@@ -8,13 +8,16 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.android.gms.common.SignInButton
+import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,24 +37,50 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private lateinit var btnLogin: Button
     private lateinit var rememberMeCheckBox: CheckBox
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var biometricManager: BiometricManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Database
         auth = FirebaseAuth.getInstance()
-
-        // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
-        // Check if "Remember Me" is enabled
+        // Initialize Biometric components
+        executor = ContextCompat.getMainExecutor(this)
+        biometricManager = BiometricManager.from(this)
+        biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                Toast.makeText(applicationContext, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                // Check if user is already authenticated
+                val currentUser = auth.currentUser
+                if (currentUser != null) {
+                    navigateToHome()
+                } else {
+                    Toast.makeText(applicationContext, "Please log in with your password.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        // Check if "Remember Me" is enabled and navigate accordingly
         if (sharedPreferences.getBoolean("rememberMe", false)) {
             val currentUser = auth.currentUser
             if (currentUser != null) {
-                // User is already logged in, navigate to home screen
                 navigateToHome()
                 finish()
                 return
@@ -72,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.btn_register)
         val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
         rememberMeCheckBox = findViewById(R.id.cb_remember_me)
+        val fingerprintIcon = findViewById<ImageView>(R.id.fingerprint_icon)
 
         // Set up Google Sign-In button click listener
         googleSignInButton.setOnClickListener {
@@ -96,6 +127,24 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter email and password.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Set up fingerprint icon click listener
+        fingerprintIcon.setOnClickListener {
+            if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+                showBiometricPrompt()
+            } else {
+                Toast.makeText(this, "Biometric authentication is not available", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    private fun showBiometricPrompt() {
+        biometricPrompt.authenticate(BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric login for KashDaddy")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Use account password")
+            .build())
     }
 
     private fun signInWithGoogle() {
@@ -180,6 +229,21 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, DashboardActivity::class.java))
         finish()
     }
+
+    private fun fetchUserData(userId: String) {
+        database.child("users").child(userId).get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists()) {
+                val user = dataSnapshot.getValue(RegisterActivity.User::class.java)
+                user?.let {
+                    // Use it to display on settings page
+                    // For example, you might store it in shared preferences or directly pass it to the settings activity
+                }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e(TAG, "Failed to fetch user data", exception)
+        }
+    }
+
 }
 
 
@@ -193,9 +257,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Database
         auth = FirebaseAuth.getInstance()
-        // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
         // Initialize register button
@@ -203,51 +266,63 @@ class RegisterActivity : AppCompatActivity() {
 
         // Set up Register button click listener
         btnRegister.setOnClickListener {
-            val email = findViewById<EditText>(R.id.et_email).text.toString().trim()
-            val password = findViewById<EditText>(R.id.et_password).text.toString().trim()
-            val name = findViewById<EditText>(R.id.et_name).text.toString().trim()
+            val emailEditText: EditText = findViewById(R.id.et_email)
+            val passwordEditText: EditText = findViewById(R.id.et_password)
+            val nameEditText: EditText = findViewById(R.id.et_name) // Add name EditText
+            val surnameEditText: EditText = findViewById(R.id.et_surname) // Add surname EditText
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
+            val name = nameEditText.text.toString().trim() // Get name
+            val surname = surnameEditText.text.toString().trim() // Get surname
 
-            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
-                registerUser(email, password, name)
+            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && surname.isNotEmpty()) {
+                registerUser(email, password, name, surname)
             } else {
-                Toast.makeText(this, "Please fill all fields.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter all fields.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun registerUser(email: String, password: String, name: String) {
+    private fun registerUser(email: String, password: String, name: String, surname: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    Log.d("RegisterActivity", "createUserWithEmail:success")
                     val user = auth.currentUser
-                    saveUserToDatabase(user, name)
-                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                    finish()  // Go back to login screen after registration
+                    saveUserToDatabase(user, name, surname) // Pass name and surname
+                    updateUI(user)
                 } else {
-                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.w("RegisterActivity", "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
+                    updateUI(null)
                 }
             }
     }
 
-    private fun saveUserToDatabase(user: FirebaseUser?, name: String) {
-        if (user != null) {
-            val userId = user.uid
-            val userEmail = user.email ?: "Unknown"
-            val userMap = mapOf(
-                "name" to name,
-                "email" to userEmail
-            )
-            database.child("users").child(userId).setValue(userMap)
+    private fun saveUserToDatabase(user: FirebaseUser?, name: String, surname: String) {
+        user?.let {
+            val userId = it.uid
+            val userData = User(it.email, name, surname) // Update User data class
+            database.child("users").child(userId).setValue(userData)
                 .addOnSuccessListener {
-                    Log.d("RegisterActivity", "User data saved successfully")
+                    Log.d("RegisterActivity", "User data saved successfully.")
                 }
-                .addOnFailureListener { e ->
-                    Log.w("RegisterActivity", "Failed to save user data", e)
+                .addOnFailureListener { exception ->
+                    Log.e("RegisterActivity", "Failed to save user data", exception)
                 }
         }
     }
+
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
+        } else {
+            Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    data class User(val email: String?, val name: String, val surname: String) // Update data class
 }
-
-
 
 

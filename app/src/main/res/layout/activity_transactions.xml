@@ -1,30 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransactionsActivity"
-    android:background="@color/black">
+    android:background="@color/white">
 
-    <!-- Transactions List RecyclerView -->
+    <!-- Header for Transaction Overview -->
+    <TextView
+        android:id="@+id/transactionOverviewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/transaction_overview"
+        android:textColor="@color/light_green"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <!-- Filter Bar (All, Category, Date) -->
+    <LinearLayout
+        android:id="@+id/filterBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionOverviewLabel">
+
+        <Button
+            android:id="@+id/filterAll"
+            android:layout_width="3dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:textColor="@color/white"
+            android:text="@string/all"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/filterCategory"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:textColor="@color/white"
+            android:text="@string/category"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/filterDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:textColor="@color/white"
+            android:text="@string/date"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <!-- Filter Options for Received/Spent -->
+    <LinearLayout
+        android:id="@+id/receivedSpentBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterBar">
+
+        <Button
+            android:id="@+id/filterReceived"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:textColor="@color/white"
+            android:text="@string/received"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/filterSpent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_green"
+            android:textColor="@color/white"
+            android:text="@string/spent"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <!-- Transaction List (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transactions_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/add_transaction_button"
-        android:layout_alignParentTop="true"
-        android:layout_margin="16dp"
-        android:background="@android:color/white"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/receivedSpentBar"/>
 
-    <!-- Add Transaction Button -->
+    <!-- Floating Add Transaction Button -->
     <Button
         android:id="@+id/add_transaction_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Add Transaction"
-        android:textColor="@android:color/white"
-        android:background="@color/black"
-        android:layout_marginBottom="16dp"/>
-</RelativeLayout>
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/transparent_button"
+        android:text="+"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/filterBar"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

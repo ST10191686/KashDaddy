@@ -5,27 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DashboardActivity"
-    android:background="@color/black">
+    android:background="@color/white">
 
     <!-- Top View -->
     <View
         android:id="@+id/topview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:background="@drawable/header_bg" />
 
     <!-- Title TextView -->
+
     <TextView
         android:id="@+id/dashboard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Dashboard"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
 
     <!-- GridLayout for Dashboard Items -->
     <GridLayout
@@ -39,9 +41,9 @@
         android:rowCount="3"
         android:layout_marginBottom="20dp">
 
-        <!-- Statistics CardView -->
+        <!-- Transactions CardView -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/statistics_card"
+            android:id="@+id/transactions_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
@@ -57,21 +59,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_statistics"
+                    android:src="@drawable/icon_transaction"
                     app:tint="@android:color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Statistics"
-                    android:textColor="@color/black"
+                    android:text="Transactions"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -97,7 +99,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
                     android:layout_width="80dp"
@@ -111,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Goals"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -119,9 +121,9 @@
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Transactions CardView -->
+        <!-- Stats CardView -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/transactions_card"
+            android:id="@+id/statistics_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
@@ -137,21 +139,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_transactions"
+                    android:src="@drawable/icon_statistics"
                     app:tint="@android:color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Transactions"
-                    android:textColor="@color/black"
+                    android:text="Statistics"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -177,21 +179,20 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_resources"
-                    app:tint="@android:color/black" />
+                    android:src="@drawable/icon_resources" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Resources"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -217,13 +218,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_reminders"
+                    android:src="@drawable/icon_reminder"
                     app:tint="@android:color/black" />
 
                 <TextView
@@ -231,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Reminders"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -257,21 +258,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@color/light_green">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/icon_settings"
-                    app:tint="@android:color/black" />
+                    android:backgroundTint="@color/black"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Settings"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

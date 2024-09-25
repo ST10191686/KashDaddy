@@ -1,71 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".MainActivity">
+    android:background="#ffff"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Welcome Onboard Title -->
+
+    <!-- Name Input -->
 
     <TextView
         android:id="@+id/register_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp"
+        android:text="@string/welcome_onboard"
+        android:textColor="#70E08D"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:layout_below="@id/register_title"
-        android:layout_marginBottom="16dp" />
+        android:hint="@string/enter_name"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- Surname Input -->
     <EditText
         android:id="@+id/et_surname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Surname"
-        android:inputType="textPersonName"
-        android:layout_below="@id/et_name"
-        android:layout_marginBottom="16dp" />
+        android:hint="@string/enter_surname"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- Email Input -->
     <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/et_surname"
-        android:layout_marginBottom="16dp" />
+        android:hint="@string/enter_email"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"/>
 
+    <!-- Password Input -->
     <EditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_below="@id/et_email"
-        android:layout_marginBottom="16dp" />
+        android:hint="@string/enter_password"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"
+        android:inputType="textPassword"/>
+
+    <!-- Confirm Password Input -->
+    <EditText
+        android:id="@+id/et_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirm_password"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"
+        android:inputType="textPassword"/>
+
+
+
+    <!-- Register Button -->
+
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_below="@id/et_password"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#70E08D"
+        android:text="@string/sign_up"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/register_google_button"
+    <!-- Already have an account? Link -->
+    <TextView
+        android:id="@+id/tv_already_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_register"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_gravity="center_horizontal"
+        android:text="@string/already_have_an_account"
+        android:textColor="#D3D3D3"
+        android:textSize="14sp" />
 
-</RelativeLayout>
+    <!-- SSO Sign-In Button (e.g., Google Sign-In) -->
+
+    <Button
+        android:id="@+id/tv_sign_in_link"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/transparent_button"
+        android:text="@string/sign_in"
+        android:textColor="#70E08D"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="0dp" />
+
+</LinearLayout>

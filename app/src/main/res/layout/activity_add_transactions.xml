@@ -1,174 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="24dp">
 
     <TextView
         android:id="@+id/transactionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Transaction"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Add this EditText for the transaction title -->
-    <EditText
-        android:id="@+id/titleEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Enter Title"
-        android:padding="10dp"
+        android:text="@string/add_transaction"
+        android:textColor="@color/light_green"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/amount"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/transactionLabel" />
 
-    <TextView
-        android:id="@+id/amountLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
-
     <EditText
         android:id="@+id/amountEditText"
+        android:layout_width="100dp"
+        android:layout_height="68dp"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/_9_99"
+        android:inputType="numberDecimal"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amount"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/titleEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:inputType="numberDecimal"
-        android:padding="10dp"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/transaction_title"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amountLabel" />
-
-    <TextView
-        android:id="@+id/dateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amountEditText" />
+        app:layout_constraintTop_toBottomOf="@id/amountEditText"
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/dateEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:inputType="date"
-        android:minHeight="48dp"
-        android:padding="10dp"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/date"
+        android:inputType="datetime"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateLabel" />
-
-    <TextView
-        android:id="@+id/sentReceivedLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Sent/Received"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateEditText" />
+        app:layout_constraintTop_toBottomOf="@id/titleEditText"
+        android:layout_marginTop="12dp" />
 
     <Spinner
         android:id="@+id/sentReceivedSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:minHeight="48dp"
+        android:background="@drawable/spinner_background"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sentReceivedLabel" />
-
-    <TextView
-        android:id="@+id/toFromLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="To/From"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sentReceivedSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/dateEditText"
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/toFromEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="10dp"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/to_from"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toFromLabel" />
-
-    <TextView
-        android:id="@+id/categoryLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toFromEditText" />
+        app:layout_constraintTop_toBottomOf="@id/sentReceivedSpinner"
+        android:layout_marginTop="12dp" />
 
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:minHeight="48dp"
+        android:background="@drawable/spinner_background"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categoryLabel" />
-
-    <TextView
-        android:id="@+id/descriptionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+        app:layout_constraintTop_toBottomOf="@id/toFromEditText"
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="10dp"
+        android:layout_height="73dp"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/description"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionLabel" />
+        app:layout_constraintTop_toBottomOf="@id/categorySpinner"
+        android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/addTransactionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Add Transaction"
-        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/button_primary"
+        android:padding="16dp"
+        android:text="@string/add_transaction"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionEditText" />
+        app:layout_constraintTop_toBottomOf="@id/descriptionEditText"
+        android:layout_marginTop="24dp" />
+
+    <Button
+        android:id="@+id/add_cat"
+        android:layout_width="84dp"
+        android:layout_height="57dp"
+        android:background="@drawable/transparent_button"
+        android:text="@string/plus"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/categorySpinner"
+        app:layout_constraintTop_toBottomOf="@id/toFromEditText"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

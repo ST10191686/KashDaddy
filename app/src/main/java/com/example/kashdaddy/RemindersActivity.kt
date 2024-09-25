@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -19,8 +20,11 @@ class RemindersActivity : AppCompatActivity() {
     private lateinit var scrollView: ScrollView
     private lateinit var remindersContainer: LinearLayout
 
-    private val database: DatabaseReference = FirebaseDatabase.getInstance().reference.child("reminders")
-    private val reminderTexts = mutableSetOf<String>() // Using a Set to avoid duplicates
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val database: DatabaseReference by lazy {
+        FirebaseDatabase.getInstance().reference.child("users").child(firebaseAuth.currentUser?.uid ?: "").child("reminders")
+    }
+    private val reminderTexts = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +65,7 @@ class RemindersActivity : AppCompatActivity() {
                 val date = selectedDateTextView.text.toString().removePrefix("Selected Date: ")
                 val reminderText = "$title - Amount: $amount - Date: $date"
 
-                // Save reminder to Firebase
+                // Save reminder to Firebase under the user's specific path
                 val reminderId = database.push().key
                 if (reminderId != null) {
                     database.child(reminderId).setValue(reminderText)
