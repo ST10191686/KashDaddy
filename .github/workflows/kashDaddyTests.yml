@@ -31,18 +31,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-          
-      - name: Download and setup Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 31  # Specify the API level you need
-          target: google_apis
-          arch: x86_64
-          emulator: true  # Set to true to enable the emulator
-
-      - name: Start emulator
+      - name: Install Android SDK and Components
         run: |
-          nohup emulator -avd my_avd_name -no-window -no-audio &
+          yes | sdkmanager --install "platform-tools" "platforms;android-31" "build-tools;31.0.0" "system-images;android-31;google_apis;x86" "emulator"
+    
+      - name: Create and start the emulator
+        run: |
+          echo "no" | avdmanager create avd -n my_avd_name -k "system-images;android-31;google_apis;x86" --force
+          nohup emulator -avd my_avd_name -no-window -no-audio -gpu swiftshader_indirect &
           adb wait-for-device
           adb shell input keyevent 82
 
