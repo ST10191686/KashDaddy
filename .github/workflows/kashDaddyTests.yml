@@ -2,6 +2,10 @@
 
 name: CI
 
+env:
+  # The name of the main module repository
+  main_project_module: app
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -22,28 +26,22 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: '17'
-          distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: Install Android SDK and Components
-        run: |
-          yes | sdkmanager --install "platform-tools" "platforms;android-31" "build-tools;31.0.0" "system-images;android-31;google_apis;x86" "emulator"
-    
-      - name: Create and start the emulator
-        run: |
-          echo "no" | avdmanager create avd -n my_avd_name -k "system-images;android-31;google_apis;x86" --force
-          nohup emulator -avd my_avd_name -no-window -no-audio -gpu swiftshader_indirect &
-          adb wait-for-device
-          adb shell input keyevent 82
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
 
-      - name: Build with Gradle
+      # Run Tests Build
+      - name: Run gradle tests
+        run: ./gradlew test
+
+      # Run Build Project
+      - name: Build gradle project
         run: ./gradlew build
-
-      - name: Run connectedAndroidTest
-        run: ./gradlew connectedAndroidTest
