@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -31,19 +31,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
+          
+      - name: Download and setup Android SDK
+        uses: android-actions/setup-android@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          api-level: 31  # Specify the API level you need
+          target: google_apis
+          arch: x86_64
+          emulator: true  # Set to true to enable the emulator
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Start emulator
+        run: |
+          nohup emulator -avd my_avd_name -no-window -no-audio &
+          adb wait-for-device
+          adb shell input keyevent 82
 
       - name: Build with Gradle
-        run: .\gradlew build
+        run: ./gradlew build
 
-      - name: Run Instrumented Tests
+      - name: Run connectedAndroidTest
         run: ./gradlew connectedAndroidTest
