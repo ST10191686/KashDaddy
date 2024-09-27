@@ -324,5 +324,3 @@ class RegisterActivity : AppCompatActivity() {
 
     data class User(val email: String?, val name: String, val surname: String) // Update data class
 }
-
-

@@ -60,6 +60,14 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
+    //parsing json API
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //superbase
+    //implementation("io.supabase:supabase-android:1.0.0") // Use the latest version if available
+
     implementation ("com.google.firebase:firebase-auth:22.1.1") // Firebase Authentication
     implementation("com.google.android.gms:play-services-auth:20.7.0") // Google Sign-In
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")//Pie chart
