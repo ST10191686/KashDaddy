@@ -252,6 +252,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var btnRegister: Button
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 9001
+    private val TAG = "RegisterActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -264,16 +267,30 @@ class RegisterActivity : AppCompatActivity() {
         // Initialize register button
         btnRegister = findViewById(R.id.btn_register)
 
+        // Configure Google Sign-In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))  // Use your web client ID
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Initialize Google Sign-In Button
+        val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
+        googleSignInButton.setOnClickListener {
+            signInWithGoogle()
+        }
+
         // Set up Register button click listener
         btnRegister.setOnClickListener {
             val emailEditText: EditText = findViewById(R.id.et_email)
             val passwordEditText: EditText = findViewById(R.id.et_password)
-            val nameEditText: EditText = findViewById(R.id.et_name) // Add name EditText
-            val surnameEditText: EditText = findViewById(R.id.et_surname) // Add surname EditText
+            val nameEditText: EditText = findViewById(R.id.et_name)
+            val surnameEditText: EditText = findViewById(R.id.et_surname)
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
-            val name = nameEditText.text.toString().trim() // Get name
-            val surname = surnameEditText.text.toString().trim() // Get surname
+            val name = nameEditText.text.toString().trim()
+            val surname = surnameEditText.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && surname.isNotEmpty()) {
                 registerUser(email, password, name, surname)
@@ -283,16 +300,50 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun signInWithGoogle() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.w(TAG, "Google sign in failed", e)
+                updateUI(null)
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential: AuthCredential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    // Save user to database if needed
+                    updateUI(user)
+                } else {
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    updateUI(null)
+                }
+            }
+    }
+
     private fun registerUser(email: String, password: String, name: String, surname: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d("RegisterActivity", "createUserWithEmail:success")
                     val user = auth.currentUser
-                    saveUserToDatabase(user, name, surname) // Pass name and surname
+                    saveUserToDatabase(user, name, surname)
                     updateUI(user)
                 } else {
-                    Log.w("RegisterActivity", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -302,13 +353,13 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToDatabase(user: FirebaseUser?, name: String, surname: String) {
         user?.let {
             val userId = it.uid
-            val userData = User(it.email, name, surname) // Update User data class
+            val userData = User(it.email, name, surname)
             database.child("users").child(userId).setValue(userData)
                 .addOnSuccessListener {
-                    Log.d("RegisterActivity", "User data saved successfully.")
+                    Log.d(TAG, "User data saved successfully.")
                 }
                 .addOnFailureListener { exception ->
-                    Log.e("RegisterActivity", "Failed to save user data", exception)
+                    Log.e(TAG, "Failed to save user data", exception)
                 }
         }
     }
@@ -318,9 +369,9 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(Intent(this, DashboardActivity::class.java))
             finish()
         } else {
-            Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    data class User(val email: String?, val name: String, val surname: String) // Update data class
+    data class User(val email: String?, val name: String, val surname: String)
 }

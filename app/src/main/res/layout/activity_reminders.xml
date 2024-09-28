@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp" />
+
 
     <TextView
         android:id="@+id/selectedDateTextView"
@@ -19,11 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/calendarView"
         android:layout_marginTop="12dp"
-        android:hint="@string/date_selected"
         android:textSize="20sp"
-        android:textColor="@color/white"
-        android:layout_marginBottom="8dp"
-        />
+        android:textColor="@color/black"
+        android:text="@string/date_selected"
+        android:layout_marginBottom="8dp" />
 
 
     <TextView
@@ -33,7 +35,8 @@
         android:layout_below="@id/selectedDateTextView"
         android:layout_marginTop="8dp"
         android:text="@string/reminders"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/black" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -42,19 +45,14 @@
         android:layout_above="@id/addReminderButton"
         android:layout_below="@id/RemindersTextView"
         android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
             android:id="@+id/remindersContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:background="#FFFFFF">
+            android:padding="8dp">
         </LinearLayout>
     </ScrollView>
 
@@ -68,7 +66,7 @@
         android:backgroundTint="@color/light_green"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp" />
 
     <LinearLayout
         android:id="@+id/reminderForm"
@@ -85,8 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:hint="@string/reminder_title"
-            tools:ignore="TextFields" />
+            android:hint="@string/reminder_title" />
 
         <EditText
             android:id="@+id/reminderAmountEditText"
@@ -95,7 +92,7 @@
             android:hint="@string/amount_needed"
             android:textColor="@color/black"
             android:inputType="numberDecimal"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/saveReminderButton"
@@ -105,6 +102,6 @@
             android:textColor="@color/white"
             android:backgroundTint="@color/light_green"
             android:layout_gravity="end"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 </RelativeLayout>
