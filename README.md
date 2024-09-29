@@ -46,9 +46,11 @@ These 2 screens are for the “goals’ feature of the application. The user wil
 •	A GitHub repository was created to host and manage the source code of the KashDaddy application. This repository served as the central location where all group members could collaborate on the project.
 •	Version control was managed through Git, allowing each team member to work on individual features in separate branches. This enabled us to track changes, merge code effectively, and resolve conflicts.
 •	Commit history was maintained for transparency, with detailed commit messages documenting the purpose of each update or fix. This helped us track the progress of the project and revert to previous versions if necessary.
+
  2.Continuous Integration (CI) with GitHub Actions
 •	GitHub Actions was used to automate the testing and building of the application. Every time code was pushed to the repository, GitHub Actions automatically triggered a workflow to test the code and ensure it was functioning as expected.
 •	The setup ensured that the project was compatible across different environments and not just the local development machines of the team members.
+
 3.Branch Management and Pull Requests
 •	We implemented a branching strategy where each team member worked on individual features in their own branches. This allowed us to isolate new functionality or fixes without affecting the main codebase.
 •	Pull Requests (PRs) were submitted to merge code back into the main branch, after which the code was reviewed by other team members to ensure quality and correctness. Once approved, the code was merged into the main branch.
@@ -56,15 +58,19 @@ These 2 screens are for the “goals’ feature of the application. The user wil
 ## GitHub Actions Utilization
 1.CI/CD Pipeline Setup
 •	GitHub Actions provided a platform to automate key workflows, such as running tests and building the application on each push or pull request. This allowed us to ensure that the code remained stable and functional after every change.
+
 •	We defined a workflow in the .github/workflows/ directory using a YAML file. This file outlined the steps for the CI pipeline, such as:
 o	Running tests (using JUnit for unit testing and Espresso for UI testing)
 o	Building the project to ensure that it compiles successfully
 o	Code quality checks using static analysis tools (e.g., Detekt for Kotlin)
+
 2.Automated Testing and Build
 •	GitHub Actions automatically executed our test suite after every push. This included:
 o	Unit tests: Testing the core functionality of features like user registration, login, and financial goal setting.
 o	UI tests: Ensuring the user interface behaves correctly and intuitively.
+
 •	The automated build ensured that any potential errors were detected early, minimizing 
+
 3.Workflow Failures and Fixes
 •	If any of the tests or builds failed, the team was immediately notified via email. This ensured quick identification and resolution of issues, maintaining the integrity of the code.
 •	The failure logs provided by GitHub Actions made it easy to trace and fix bugs, improving the overall development workflow.
