@@ -59,6 +59,11 @@ class TransactionsActivity : AppCompatActivity() {
         currentFilter = "All" // Set default filter
     }
 
+    // Kotlin Filter: Simplifying the Search for Collection Elements
+    // https://www.dhiwise.com/post/kotlin-filter-simplifying-the-search-for-collection-elements
+    // Dhruv Gandhi
+    // 
+
     private fun applyFilter(filterType: String) {
         currentFilter = filterType
         val filteredList = when (filterType) {
@@ -120,6 +125,10 @@ class TransactionsActivity : AppCompatActivity() {
             description = description
         )
 
+        // Read and Write Data on Android
+        // https://firebase.google.com/docs/database/android/read-and-write
+        // Firebase 
+     
         // Save to Firebase under the user's unique path
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/transactions")
