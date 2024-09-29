@@ -14,6 +14,11 @@ import com.github.mikephil.charting.data.PieEntry
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+// Using MPAndroidChart for Android Application — PieChart
+// https://medium.com/@clyeung0714/using-mpandroidchart-for-android-application-piechart-123d62d4ddc0
+// Wilson Yeung
+// https://medium.com/@clyeung0714
+
 class StatisticsActivity : AppCompatActivity() {
 
     private lateinit var databaseReference: DatabaseReference
@@ -100,6 +105,11 @@ class StatisticsActivity : AppCompatActivity() {
             }
         })
     }
+
+    // Using MPAndroidChart for Android Application — PieChart
+    // https://medium.com/@clyeung0714/using-mpandroidchart-for-android-application-piechart-123d62d4ddc0
+    // Wilson Yeung
+    // https://medium.com/@clyeung0714
 
     private fun updatePieChart(income: Double, expenses: Double) {
         val entries = listOf(
