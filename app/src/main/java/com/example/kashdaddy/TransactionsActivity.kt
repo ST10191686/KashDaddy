@@ -128,16 +128,28 @@ class TransactionsActivity : AppCompatActivity() {
             databaseReference.child(transactionId).setValue(newTransaction).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Transaction added successfully.", Toast.LENGTH_SHORT).show()
+
+                    // Reset to the transactions activity
                     setContentView(R.layout.activity_transactions)
+
+                    // Reinitialize the RecyclerView and the button click listener
                     recyclerView = findViewById(R.id.transactions_recycler_view)
                     recyclerView.layoutManager = LinearLayoutManager(this)
                     loadTransactions() // Reload transactions to include the new one
+
+                    // Reinitialize the add transaction button
+                    val addTransactionButton = findViewById<Button>(R.id.add_transaction_button)
+                    addTransactionButton.setOnClickListener {
+                        showAddTransactionLayout() // Call method to show add transaction layout
+                    }
+
                 } else {
                     Toast.makeText(this, "Failed to add transaction.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
+
 
     private fun loadTransactions() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
