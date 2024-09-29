@@ -27,6 +27,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.android.gms.common.SignInButton
 import java.util.concurrent.Executor
 
+// Login and Registration in Android using Firebase in Kotlin
+// https://www.geeksforgeeks.org/login-and-registration-in-android-using-firebase-in-kotlin/
+// ayushpandey3july
+// https://www.geeksforgeeks.org/user/ayushpandey3july/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -51,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
+        // Biometric Authentication in Android Kotlin…
+        // https://saqibvnb.medium.com/biometric-authentication-in-android-kotlin-2178cd227afb
+        // Saqib Ahmed
+        // https://saqibvnb.medium.com
+        
         // Initialize Biometric components
         executor = ContextCompat.getMainExecutor(this)
         biometricManager = BiometricManager.from(this)
@@ -88,6 +98,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_login)
+
+        // Google Signing using Firebase Authentication in Kotlin
+        // https://www.geeksforgeeks.org/google-signing-using-firebase-authentication-in-kotlin/
+        // annianni
+        // https://www.geeksforgeeks.org/user/annianni/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
 
         // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -189,6 +204,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
+        // Google Signing using Firebase Authentication in Kotlin
+        // https://www.geeksforgeeks.org/google-signing-using-firebase-authentication-in-kotlin/
+        // annianni
+        // https://www.geeksforgeeks.org/user/annianni/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential: AuthCredential = GoogleAuthProvider.getCredential(idToken, null)

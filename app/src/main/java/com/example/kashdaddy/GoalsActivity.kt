@@ -89,6 +89,11 @@ class GoalsActivity : AppCompatActivity() {
         loadGoalsFromFirebase()
     }
 
+    // Mastering Date and Time Handling in Kotlin for Android Developers
+    // https://bugfender.com/blog/kotlin-dates/
+    // Ashutosh Makwana
+    // https://bugfender.com/blog/author/ashutosh-makwana/
+
     private fun calculateTimeRemaining(dueDate: String): String {
         // Define the date format that matches the input due date (e.g., "dd/MM/yyyy")
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

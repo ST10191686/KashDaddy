@@ -41,6 +41,11 @@ class RemindersActivity : AppCompatActivity() {
         scrollView = findViewById(R.id.scrollView)
         remindersContainer = findViewById(R.id.remindersContainer)
 
+        // Android – onDateChangeListener in CalendarView
+        // https://www.geeksforgeeks.org/android-ondatechangelistener-in-calenderview/
+        // its_codezada17
+        // https://www.geeksforgeeks.org/user/its_codezada17/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
+
         // Handle calendar date change
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val date = "$dayOfMonth/${month + 1}/$year"

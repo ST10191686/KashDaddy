@@ -13,6 +13,11 @@ class ResourcesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_resources) // Ensure you are referencing the correct layout
     }
 
+    // Create Clickable Hyperlinks in TextView in Android with Kotlin
+    // https://www.geeksforgeeks.org/create-clickable-hyperlinks-in-textview-in-android-with-kotlin/
+    // aashaypawar
+    // 
+
     // Function to handle article clicks
     fun onArticleClick(view: View) {
         val url = when (view.id) {
