@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Welcome Back Title -->
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_back"
+        android:textSize="32sp"
+        android:textColor="#70E08D"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="32dp"/>
+
+    <!-- Touch ID Info -->
+    <TextView
+        android:id="@+id/fingerprint_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_touch_id_to_sign_into_account"
+        android:textSize="14sp"
+        android:textColor="#B6B6B6"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"/>
+    <ImageView
+        android:id="@+id/fingerprint_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_fingerprint"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Use email and password info -->
+    <TextView
+        android:id="@+id/alternative_login_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or_use_email_and_password_instead"
+        android:textSize="14sp"
+        android:textColor="#B6B6B6"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"/>
+
+    <!-- Email and Password Inputs -->
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_email"
+        android:backgroundTint="#B6B6B6"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="16dp"/>
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_password"
+        android:backgroundTint="#D3D3D3"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="#D3D3D3"
+        android:layout_marginBottom="24dp"
+        android:inputType="textPassword"/>
+
+    <CheckBox
+        android:id="@+id/cb_remember_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/remember_me" />
+
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:textSize="18sp"
+        android:backgroundTint="#70E08D"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Forgot Password -->
+    <Button
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/transparent_button"
+        android:text="@string/forgot_password"
+        android:textColor="#70E08D"
+        android:textSize="14sp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/transparent_button"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="197dp"
+        android:layout_height="63dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/transparent_button"
+        android:text="@string/register_an_account"
+        android:textColor="#70E08D"
+        android:textSize="14sp" />
+
+
+
+</LinearLayout>
