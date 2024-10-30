@@ -25,6 +25,7 @@ import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.core.app.NotificationCompat
+import android.app.DatePickerDialog
 
 class GoalsActivity : AppCompatActivity() {
 
@@ -36,6 +37,7 @@ class GoalsActivity : AppCompatActivity() {
     private lateinit var goalNameEditText: EditText
     private lateinit var goalTargetAmountEditText: EditText
     private lateinit var addGoalLayout: LinearLayout
+    private lateinit var goalDueDateEditText: EditText
 
     // Firebase reference
     private lateinit var database: DatabaseReference
@@ -70,6 +72,7 @@ class GoalsActivity : AppCompatActivity() {
         saveGoalButton = findViewById(R.id.save_goal_button)
         goalNameEditText = findViewById(R.id.goal_name)
         goalTargetAmountEditText = findViewById(R.id.goal_target_amount)
+        goalDueDateEditText = findViewById(R.id.goal_due_date)
         addGoalLayout = findViewById(R.id.add_goal_layout)
 
         // Create notification channel
@@ -80,12 +83,17 @@ class GoalsActivity : AppCompatActivity() {
             addGoalLayout.visibility = View.VISIBLE
         }
 
+        // Show DatePickerDialog when due date EditText is clicked
+        goalDueDateEditText.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         // Save the new goal
         saveGoalButton.setOnClickListener {
             val goalName = goalNameEditText.text.toString()
             val goalCategory = addGoalLayout.findViewById<EditText>(R.id.goal_category).text.toString()
             val goalTargetAmount = goalTargetAmountEditText.text.toString().toIntOrNull()
-            val goalDueDate = addGoalLayout.findViewById<EditText>(R.id.goal_due_date).text.toString()
+            val goalDueDate = goalDueDateEditText.text.toString()
 
             if (goalName.isNotEmpty() && goalTargetAmount != null && goalCategory.isNotEmpty() && goalDueDate.isNotEmpty()) {
                 val timeRemaining = calculateTimeRemaining(goalDueDate)
@@ -105,7 +113,7 @@ class GoalsActivity : AppCompatActivity() {
                 goalNameEditText.text.clear()
                 goalTargetAmountEditText.text.clear()
                 addGoalLayout.findViewById<EditText>(R.id.goal_category).text.clear()
-                addGoalLayout.findViewById<EditText>(R.id.goal_due_date).text.clear()
+                goalDueDateEditText.text.clear()
             }
         }
 
@@ -114,6 +122,21 @@ class GoalsActivity : AppCompatActivity() {
 
         // Sync any offline goals when network is available
         syncOfflineGoals()
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            // Format the date to "dd/MM/yyyy"
+            val formattedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+            goalDueDateEditText.setText(formattedDate)
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 
     private fun saveGoalToFirebase(goal: Goal) {
@@ -155,7 +178,6 @@ class GoalsActivity : AppCompatActivity() {
         notificationManager.notify(goal.hashCode(), notificationBuilder.build())
     }
 
-
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -191,7 +213,7 @@ class GoalsActivity : AppCompatActivity() {
     }
 
     private fun loadGoalsFromFirebase() {
-        database.addValueEventListener(object : ValueEventListener {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 goalList.clear() // Clear the list before loading new data
                 for (goalSnapshot in snapshot.children) {
@@ -208,6 +230,7 @@ class GoalsActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun calculateTimeRemaining(dueDate: String): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
