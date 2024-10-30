@@ -210,9 +210,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
-
-
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
