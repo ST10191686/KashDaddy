@@ -1,16 +1,19 @@
 package com.example.kashdaddy
+// Login and Registration in Android using Firebase in Kotlin
+// https://www.geeksforgeeks.org/login-and-registration-in-android-using-firebase-in-kotlin/
+// ayushpandey3july
+// https://www.geeksforgeeks.org/user/ayushpandey3july/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Base64
 import android.util.Log
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -19,145 +22,110 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.SignInButton
+import com.google.firebase.auth.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.android.gms.common.SignInButton
-import java.util.concurrent.Executor
-
-// Login and Registration in Android using Firebase in Kotlin
-// https://www.geeksforgeeks.org/login-and-registration-in-android-using-firebase-in-kotlin/
-// ayushpandey3july
-// https://www.geeksforgeeks.org/user/ayushpandey3july/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
-    private val RC_SIGN_IN = 9001
-    private val TAG = "MainActivity"
     private lateinit var btnLogin: Button
     private lateinit var rememberMeCheckBox: CheckBox
-    private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var biometricManager: BiometricManager
+    private val RC_SIGN_IN = 9001
+    private val KEY_NAME = "KashDaddyKey"
+    private val TAG = "MainActivity"
+    private lateinit var keyStore: KeyStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
-        // Enable Firebase persistence before any other Firebase usage
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        database = FirebaseDatabase.getInstance().reference
-
-        // Initialize Firebase Auth and Database
+        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
 
-        // Initialize Biometric components
-        executor = ContextCompat.getMainExecutor(this)
-        biometricManager = BiometricManager.from(this)
-        biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
-            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                super.onAuthenticationError(errorCode, errString)
-                Toast.makeText(applicationContext, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                super.onAuthenticationSucceeded(result)
-                val currentUser = auth.currentUser
-                if (currentUser != null) {
-                    navigateToHome()
-                } else {
-                    Toast.makeText(applicationContext, "Please log in with your password.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onAuthenticationFailed() {
-                super.onAuthenticationFailed()
-                Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        // Check if "Remember Me" is enabled and user is already logged in
-        if (sharedPreferences.getBoolean("rememberMe", false)) {
-            val currentUser = auth.currentUser
-            if (currentUser != null) {
-                navigateToHome()
-                finish()
-                return
-            }
-        }
-
-        setContentView(R.layout.activity_login)
-
-        // Google Sign-In configuration
+        // Set up Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Initialize buttons and other UI components
+        // Initialize UI elements
         btnLogin = findViewById(R.id.btn_login)
-        val registerButton: Button = findViewById(R.id.btn_register)
-        val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
         rememberMeCheckBox = findViewById(R.id.cb_remember_me)
-        val fingerprintIcon = findViewById<ImageView>(R.id.fingerprint_icon)
+        val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
+        val fingerprintIcon: ImageView = findViewById(R.id.fingerprint_icon)
 
-        // Set up Google Sign-In button click listener
-        googleSignInButton.setOnClickListener {
-            signInWithGoogle()
-        }
+        // Set up biometric components
+        biometricManager = BiometricManager.from(this)
+        biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(
+                        applicationContext,
+                        "Authentication succeeded!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigateToHome()
+                }
 
-        // Set up Register button click listener to navigate to RegisterActivity
-        registerButton.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(
+                        applicationContext,
+                        "Authentication error: $errString",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-        // Set up Login button click listener
-        btnLogin.setOnClickListener {
-            val emailEditText: EditText = findViewById(R.id.et_email)
-            val passwordEditText: EditText = findViewById(R.id.et_password)
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginWithEmailPassword(email, password)
-            } else {
-                Toast.makeText(this, "Please enter email and password.", Toast.LENGTH_SHORT).show()
-            }
-        }
+        // Initialize KeyStore
+        keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
 
-        // Set up fingerprint icon click listener
-        fingerprintIcon.setOnClickListener {
-            if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
-                showBiometricPrompt()
-            } else {
-                Toast.makeText(this, "Biometric authentication is not available", Toast.LENGTH_SHORT).show()
-            }
-        }
+        // Set up button listeners
+        googleSignInButton.setOnClickListener { signInWithGoogle() }
+        btnLogin.setOnClickListener { handleLogin() }
+        fingerprintIcon.setOnClickListener { handleBiometricPrompt() }
     }
 
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetworkInfo
-        return activeNetwork?.isConnectedOrConnecting == true
-    }
-
-    private fun showBiometricPrompt() {
-        biometricPrompt.authenticate(BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric login for KashDaddy")
-            .setSubtitle("Log in using your biometric credential")
-            .setNegativeButtonText("Use account password")
-            .build())
+    private fun handleLogin() {
+        val email = findViewById<EditText>(R.id.et_email).text.toString().trim()
+        val password = findViewById<EditText>(R.id.et_password).text.toString().trim()
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    saveCredentials(email, password)
+                    navigateToHome()
+                } else {
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Please enter email and password.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun signInWithGoogle() {
@@ -167,114 +135,81 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                val account = task.getResult(ApiException::class.java)!!
-                val idToken = account.idToken
-                if (idToken != null) {
-                    firebaseAuthWithGoogle(idToken)
-                } else {
-                    Log.w(TAG, "ID Token is null")
-                    updateUI(null)
-                }
-            } catch (e: ApiException) {
+                val account = task.result
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: Exception) {
                 Log.w(TAG, "Google sign in failed", e)
-                updateUI(null)
-            }
-        }
-    }
-
-    private fun loginWithEmailPassword(email: String, password: String) {
-        if (isNetworkAvailable()) {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "signInWithEmail:success")
-                        val user = auth.currentUser
-                        user?.let {
-                            saveLoginStateLocally(it.uid)
-                            updateUI(user)
-                        }
-                    } else {
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                        updateUI(null)
-                    }
-                }
-        } else {
-            // If offline, check stored user data for offline login
-            val savedUserId = sharedPreferences.getString("userId", null)
-            if (savedUserId != null) {
-                navigateToHome()
-            } else {
-                Toast.makeText(this, "No network available and no offline data.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential: AuthCredential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    user?.let {
-                        saveLoginStateLocally(it.uid)
-                        updateUI(user)
-                    }
-                } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    updateUI(null)
-                }
+        auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                saveCredentials(auth.currentUser!!.email!!, "google_password_placeholder")
+                navigateToHome()
+            } else {
+                Toast.makeText(this, "Authentication with Google failed.", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    private fun saveLoginStateLocally(userId: String) {
-        val rememberMe = rememberMeCheckBox.isChecked
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("rememberMe", rememberMe)
-        editor.putString("userId", userId)  // Save user ID locally
-        editor.apply()
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            navigateToHome()
-        } else {
-            Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun handleBiometricPrompt() {
+        if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+            biometricPrompt.authenticate(
+                BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric login for KashDaddy")
+                    .setSubtitle("Log in using your biometric credential")
+                    .setNegativeButtonText("Use account password")
+                    .build()
+            )
+        } else {
+            Toast.makeText(this, "Biometric authentication is not available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getKey(): SecretKey {
+        if (!keyStore.containsAlias(KEY_NAME)) {
+            val keyGen = KeyGenerator.getInstance("AES", "AndroidKeyStore")
+            keyGen.init(
+                KeyGenParameterSpec.Builder(KEY_NAME, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                    .setUserAuthenticationRequired(false) // Authentication not strictly required for demo purposes
+                    .build()
+            )
+            return keyGen.generateKey()
+        }
+        return keyStore.getKey(KEY_NAME, null) as SecretKey
+    }
+
+    private fun encryptData(data: String): ByteArray {
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.ENCRYPT_MODE, getKey())
+        val encryptionIv = cipher.iv
+        sharedPreferences.edit().putString("iv", android.util.Base64.encodeToString(encryptionIv, android.util.Base64.DEFAULT)).apply()
+        return cipher.doFinal(data.toByteArray())
+    }
+
+    private fun saveCredentials(email: String, password: String) {
+        val encryptedEmail = encryptData(email)
+        val encryptedPassword = encryptData(password)
+        sharedPreferences.edit()
+            .putString("email", android.util.Base64.encodeToString(encryptedEmail, android.util.Base64.DEFAULT))
+            .putString("password", android.util.Base64.encodeToString(encryptedPassword, android.util.Base64.DEFAULT))
+            .apply()
     }
 
     private fun navigateToHome() {
         startActivity(Intent(this, DashboardActivity::class.java))
         finish()
     }
-
-    private fun fetchUserData(userId: String) {
-        database.child("users").child(userId).get().addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.exists()) {
-                val user = dataSnapshot.getValue(RegisterActivity.User::class.java)
-                user?.let {
-                    // Use this data for offline purposes, store it locally if needed
-                }
-            }
-        }.addOnFailureListener { exception ->
-            Log.e(TAG, "Failed to fetch user data", exception)
-        }
-    }
-
-    private fun syncUserDataIfNeeded() {
-        if (isNetworkAvailable()) {
-            val userId = sharedPreferences.getString("userId", null)
-            if (userId != null) {
-                fetchUserData(userId)
-            }
-        }
-    }
 }
+
 
 
 

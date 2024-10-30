@@ -1,12 +1,18 @@
 package com.example.kashdaddy
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +42,6 @@ class RemindersActivity : AppCompatActivity() {
 
         // Initialize SharedPreferences for offline storage
         sharedPreferences = getSharedPreferences("ReminderPrefs", Context.MODE_PRIVATE)
-
 
         // Initialize views
         calendarView = findViewById(R.id.calendarView)
@@ -95,6 +100,10 @@ class RemindersActivity : AppCompatActivity() {
             database.child(reminderId).setValue(reminderText)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Reminder saved!", Toast.LENGTH_SHORT).show()
+
+                    // Show notification immediately after saving the reminder
+                    showNotification("Reminder: $reminderText", "Due Today")
+
                     if (reminderTexts.add(reminderText)) {
                         addReminderToView(reminderText)
                     }
@@ -110,6 +119,35 @@ class RemindersActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed to save reminder", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun showNotification(title: String, messageBody: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // Create notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "default_channel",
+                "Channel human readable title",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Build the notification
+        val notificationBuilder = NotificationCompat.Builder(this, "default_channel")
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(messageBody)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+
+        // Show the notification
+        notificationManager.notify(0, notificationBuilder.build())
     }
 
     private fun saveReminderOffline(reminderText: String) {
@@ -145,7 +183,7 @@ class RemindersActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: com.google.firebase.database.DatabaseError) {
-                Toast.makeText(this@RemindersActivity, "Failed to load reminders", Toast.LENGTH_SHORT).show()
+                // Handle possible errors.
             }
         })
     }
@@ -153,15 +191,12 @@ class RemindersActivity : AppCompatActivity() {
     private fun addReminderToView(reminderText: String) {
         val textView = TextView(this)
         textView.text = reminderText
-        textView.setPadding(8, 8, 8, 8)
-        textView.textSize = 16f
         remindersContainer.addView(textView)
     }
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetworkInfo
-        return activeNetwork?.isConnectedOrConnecting == true
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 }
-
