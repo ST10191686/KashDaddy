@@ -58,14 +58,15 @@
     <string name="date_selected">Geselekteerde Datum: Null</string>
     <string name="expense_alerts">Uitgawe Waarskuwings</string>
     <string name="enable_reminders">Aktiveer Herinneringe</string>
-    <string name="supabase_url">https://zvsttixrednvsvguesfl.supabase.co</string>
-    <string name="supabase_anon_key">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2c3R0aXhyZWRudnN2Z3Vlc2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjcyOTI4NTQsImV4cCI6MjA0Mjg2ODg1NH0.He5aDBr4AGa2SG7lqSt8ej_nyyXWO50U_3sAVyNiW30"</string>
     <string name="dashboard">Dashboard</string>
     <string name="transactions">Transaksies</string>
     <string name="goals">Doelwitte</string>
     <string name="statistics">Statistieke</string>
     <string name="resources">Hulpbronne</string>
     <string name="settings">Instellings</string>
+    <string name="supabase_url">https://zvsttixrednvsvguesfl.supabase.co</string>
+    <string name="supabase_anon_key">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2c3R0aXhyZWRudnN2Z3Vlc2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjcyOTI4NTQsImV4cCI6MjA0Mjg2ODg1NH0.He5aDBr4AGa2SG7lqSt8ej_nyyXWO50U_3sAVyNiW30"</string>
+
 
 </resources>
 

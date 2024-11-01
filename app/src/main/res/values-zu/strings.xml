@@ -53,6 +53,12 @@
     <string name="budget_category">Isigaba Sebhajethi</string>
     <string name="preferences">Izinto Ezithandwayo</string>
     <string name="save">Londoloza</string>
+    <string name="dashboard">I-Deshibhodi</string>
+    <string name="transactions">Izinkokhelo</string>
+    <string name="goals">Izinhloso</string>
+    <string name="statistics">Izibalo</string>
+    <string name="resources">Izinsiza</string>
+    <string name="settings">Izilungiselelo</string>
     <string name="reminder_title">Isihloko Sesikhumbuzo</string>
     <string name="amount_needed">Inani Elidingekayo</string>
     <string name="date_selected">Usuku Olukhethiwe: Null</string>
@@ -60,12 +66,6 @@
     <string name="enable_reminders">Yenza Izikhumbuzo Zibe khona</string>
     <string name="supabase_url">https://zvsttixrednvsvguesfl.supabase.co</string>
     <string name="supabase_anon_key">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2c3R0aXhyZWRudnN2Z3Vlc2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjcyOTI4NTQsImV4cCI6MjA0Mjg2ODg1NH0.He5aDBr4AGa2SG7lqSt8ej_nyyXWO50U_3sAVyNiW30"</string>
-    <string name="dashboard">I-Deshibhodi</string>
-    <string name="transactions">Izinkokhelo</string>
-    <string name="goals">Izinhloso</string>
-    <string name="statistics">Izibalo</string>
-    <string name="resources">Izinsiza</string>
-    <string name="settings">Izilungiselelo</string>
 
 </resources>
 

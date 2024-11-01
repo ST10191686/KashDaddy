@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Statistics"
-        android:textAlignment="viewStart"
+        android:text="@string/statistics"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold" />
@@ -31,15 +31,18 @@
         android:orientation="horizontal"
         android:layout_marginTop="70dp"
         android:layout_below="@id/statistics_title"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:background="@drawable/rounded_corner_background">
 
         <Button
             android:id="@+id/buttonCurrent"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Current"
-            android:backgroundTint="@color/light_green" />
+            android:backgroundTint="@color/light_green"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button3m"
@@ -47,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="3m"
-            android:backgroundTint="@color/light_green" />
+            android:backgroundTint="@color/light_green"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button6m"
@@ -55,7 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="6m"
-            android:backgroundTint="@color/light_green" />
+            android:backgroundTint="@color/light_green"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button1y"
@@ -63,54 +70,58 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1y"
-            android:backgroundTint="@color/light_green" />
+            android:backgroundTint="@color/light_green"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/income_expense_container"
-        android:layout_width="match_parent"
+        android:layout_width="420dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/buttons_container"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_corner_background"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/buttons_container">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textMonthName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Month: January"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textTotalBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Total Balance: R0.00"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"
             android:text="Income: R0.00"
-            android:textSize="16sp"
-            android:paddingTop="8dp" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textExpenses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Expenses: R0.00"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:paddingTop="8dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.PieChart
@@ -119,5 +130,6 @@
         android:layout_height="350dp"
         android:layout_below="@id/income_expense_container"
         android:layout_marginTop="16dp"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:background="@drawable/rounded_corner_background" />
 </RelativeLayout>
