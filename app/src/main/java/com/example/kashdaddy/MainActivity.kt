@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var biometricManager: BiometricManager
     private val RC_SIGN_IN = 9001
+
     private val KEY_NAME = "KashDaddyKey"
     private val TAG = "MainActivity"
     private lateinit var keyStore: KeyStore
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         rememberMeCheckBox = findViewById(R.id.cb_remember_me)
         val googleSignInButton: SignInButton = findViewById(R.id.sign_in_button)
         val fingerprintIcon: ImageView = findViewById(R.id.fingerprint_icon)
+        val registerButton: Button = findViewById(R.id.btn_register)
 
         // Set up biometric components
         biometricManager = BiometricManager.from(this)
@@ -109,6 +111,11 @@ class MainActivity : AppCompatActivity() {
         googleSignInButton.setOnClickListener { signInWithGoogle() }
         btnLogin.setOnClickListener { handleLogin() }
         fingerprintIcon.setOnClickListener { handleBiometricPrompt() }
+
+        // Register button click listener to navigate to RegisterActivity
+        registerButton.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 
     private fun handleLogin() {

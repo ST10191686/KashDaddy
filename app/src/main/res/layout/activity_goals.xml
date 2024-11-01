@@ -86,11 +86,13 @@
             android:id="@+id/goal_due_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Due Date (dd/mm/yyyy)"
+            android:hint="Due Date (dd/MM/yyyy)"
             android:textColorHint="@color/light_grey"
             android:textColor="@color/black"
             android:layout_marginBottom="16dp"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:focusable="false" />
+
 
         <EditText
             android:id="@+id/goal_target_amount"
