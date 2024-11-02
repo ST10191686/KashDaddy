@@ -7,15 +7,21 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+// Medium
+// How to create Custom Adapter for Recycler View [Android] — Kotlin
+// https://ranjanmishramed.medium.com/how-to-create-custom-adapter-for-recycler-view-android-kotlin-f8da7fc6260e
+// Ranjan Mishra
+// https://ranjanmishramed.medium.com
+
 class GoalAdapter(private val goals: MutableList<Goal>) : RecyclerView.Adapter<GoalAdapter.GoalViewHolder>() {
 
     class GoalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val goalName: TextView = view.findViewById(R.id.goal_name)
         val goalProgressBar: ProgressBar = view.findViewById(R.id.goal_progress_bar)
         val goalProgressText: TextView = view.findViewById(R.id.goal_progress_text)
-        val goalCategory: TextView = view.findViewById(R.id.goal_category) // Add category view
-        val goalDueDate: TextView = view.findViewById(R.id.goal_due_date) // Add due date view
-        val goalTimeRemaining: TextView = view.findViewById(R.id.goal_time_remaining) // Add time remaining view
+        val goalCategory: TextView = view.findViewById(R.id.goal_category) 
+        val goalDueDate: TextView = view.findViewById(R.id.goal_due_date) 
+        val goalTimeRemaining: TextView = view.findViewById(R.id.goal_time_remaining) 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
