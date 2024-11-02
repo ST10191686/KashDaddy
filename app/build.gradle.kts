@@ -78,6 +78,10 @@ dependencies {
     implementation("androidx.biometric:biometric:1.2.0-alpha05")//biometrics
 
     // Add the Firebase Messaging dependency for FCM
+    // DopeBase
+    // Android Push Notifications with Kotlin: A Step-by-Step Guide
+    // https://dopebase.com/android-push-notifications-kotlin-step-step-guide
+
     implementation("com.google.firebase:firebase-messaging")
 
 }
