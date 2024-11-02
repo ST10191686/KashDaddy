@@ -1,8 +1,4 @@
 package com.example.kashdaddy
-// Login and Registration in Android using Firebase in Kotlin
-// https://www.geeksforgeeks.org/login-and-registration-in-android-using-firebase-in-kotlin/
-// ayushpandey3july
-// https://www.geeksforgeeks.org/user/ayushpandey3july/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
 
 import android.content.Context
 import android.content.Intent
@@ -35,6 +31,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
+
+// Login and Registration in Android using Firebase in Kotlin
+// https://www.geeksforgeeks.org/login-and-registration-in-android-using-firebase-in-kotlin/
+// ayushpandey3july
+// https://www.geeksforgeeks.org/user/ayushpandey3july/contributions/?itm_source=geeksforgeeks&itm_medium=article_author&itm_campaign=auth_user
+
+
+// Biometric Authentication in Android Kotlin…
+// https://saqibvnb.medium.com/biometric-authentication-in-android-kotlin-2178cd227afb
+// Saqib Ahmed
+// https://saqibvnb.medium.com
+
+// BalckBox AI
+// how to implement biometric fingerprint to login
+// https://www.blackbox.ai/chat/lbgB1zN
 
 class MainActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
