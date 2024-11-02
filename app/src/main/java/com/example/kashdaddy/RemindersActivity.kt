@@ -189,9 +189,55 @@ class RemindersActivity : AppCompatActivity() {
     }
 
     private fun addReminderToView(reminderText: String) {
-        val textView = TextView(this)
-        textView.text = reminderText
-        remindersContainer.addView(textView)
+        // Split the reminderText string into title, amount, and date
+        val parts = reminderText.split(" - ")
+        val title = parts.getOrNull(0) ?: "No Title"
+        val amount = parts.getOrNull(1) ?: "No Amount"
+        val date = parts.getOrNull(2) ?: "No Date"
+
+        // Create a LinearLayout for each reminder entry
+        val reminderLayout = LinearLayout(this)
+        reminderLayout.orientation = LinearLayout.VERTICAL
+        reminderLayout.setPadding(8, 8, 8, 8)
+
+        // Create a TextView for the title
+        val titleTextView = TextView(this).apply {
+            text = title
+            textSize = 18f
+            setTextColor(resources.getColor(android.R.color.black))
+            setPadding(0, 0, 0, 4)
+        }
+
+        // Create a TextView for the amount
+        val amountTextView = TextView(this).apply {
+            text = amount
+            textSize = 16f
+            setTextColor(resources.getColor(android.R.color.black))
+            setPadding(0, 0, 0, 4)
+        }
+
+        // Create a TextView for the due date
+        val dateTextView = TextView(this).apply {
+            text = date
+            textSize = 16f
+            setTextColor(resources.getColor(android.R.color.black))
+            setPadding(0, 0, 0, 4)
+        }
+
+        // Add the title, amount, and date TextViews to the reminder layout
+        reminderLayout.addView(titleTextView)
+        reminderLayout.addView(amountTextView)
+        reminderLayout.addView(dateTextView)
+
+        // Add a separator for each reminder entry
+        val separator = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
+            setBackgroundColor(resources.getColor(android.R.color.darker_gray))
+        }
+        reminderLayout.addView(separator)
+
+        // Add the reminder layout to the container
+        remindersContainer.addView(reminderLayout)
     }
 
     private fun isNetworkAvailable(): Boolean {
