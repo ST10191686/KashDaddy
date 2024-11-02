@@ -10,6 +10,14 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+// Dopebase
+// Android Push Notifications with Kotlin: A Step-by-Step Guide
+// https://dopebase.com/android-push-notifications-kotlin-step-step-guide
+
+// BlackBox AI
+// https://www.blackbox.ai/chat/lbgB1zN
+// how to go about implementing real time notifications into android studio using kotlin
+
 class PushNotificationService : FirebaseMessagingService() {
     private val TAG = "FCM Service"
 
@@ -31,7 +39,7 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(title: String?, messageBody: String?) {
-        val intent = Intent(this, MainActivity::class.java) // Change this to the activity you want to open
+        val intent = Intent(this, MainActivity::class.java) 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         // Use a unique request code for the PendingIntent
@@ -44,7 +52,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
         // Create the notification builder
         val notificationBuilder = NotificationCompat.Builder(this, "default_channel")
-            .setSmallIcon(R.drawable.ic_notification) // Replace with your app's notification icon
+            .setSmallIcon(R.drawable.ic_notification) 
             .setContentTitle(title)
             .setContentText(messageBody)
             .setAutoCancel(true)
@@ -52,7 +60,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        // For Android O and above, create a notification channel
+        // Creating a notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "default_channel",
