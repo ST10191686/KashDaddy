@@ -8,6 +8,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 
+
+// Author: Supabase
+// Website: Supabase Documentation
+// Title: Getting Started with Android and Supabase
+// Date: November 2023
+// URL: https://supabase.com/docs/guides/getting-started/quickstarts/kotlin
 class SupabaseService {
 
     private val baseUrl = "https://zvsttixrednvsvguesfl.supabase.co"

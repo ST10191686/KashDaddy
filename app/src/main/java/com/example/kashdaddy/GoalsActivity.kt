@@ -27,6 +27,12 @@ import java.util.*
 import androidx.core.app.NotificationCompat
 import android.app.DatePickerDialog
 
+
+// SharedPreferences
+// Author: Android Developers
+// Source: Android Developer Documentation
+// URL: https://developer.android.com/training/data-storage/shared-preferences
+
 class GoalsActivity : AppCompatActivity() {
 
     private lateinit var goalRecyclerView: RecyclerView

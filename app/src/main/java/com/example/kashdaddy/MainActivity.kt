@@ -47,6 +47,16 @@ import com.google.firebase.messaging.FirebaseMessaging
 // how to implement biometric fingerprint to login
 // https://www.blackbox.ai/chat/lbgB1zN
 
+
+// GoogleSignInClient and Sign-in Button
+// Author: Google Developers
+// Source: Google Sign-In for Android
+// URL: https://developers.google.com/identity/sign-in/android/legacy-start-integrating
+
+// Handle sign-in result
+// Author: Google Developers
+// Source: Google Sign-In for Android
+// URL:https://developers.google.com/identity/sign-in/android/legacy-start-integrating
 class MainActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth

@@ -6,6 +6,11 @@ import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 
+// CardView Implementation
+// Android Developer Documentation
+// Title: CardView
+// Date: October 2023
+// Source: Android Studio Documentation
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

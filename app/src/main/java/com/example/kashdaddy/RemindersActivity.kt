@@ -17,6 +17,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+
+// SharedPreferences
+// Author: Android Developers
+// Source: Android Developer Documentation
+// URL: https://developer.android.com/training/data-storage/shared-preferences
+
 class RemindersActivity : AppCompatActivity() {
 
     private lateinit var calendarView: CalendarView
