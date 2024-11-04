@@ -2,6 +2,7 @@
 
 P.S A ReadMe pdf File was add to the repo that contains the images to make it our own which contains same information as this ReadMe File
 
+Link to YouTube:https://youtu.be/bQwS8jR7wr0
 ## Purpose of KashDAddy 
 KashDaddy is a personal finance management application designed to empower users to achieve financial freedom and security. Its purpose is to provide a user-friendly platform for tracking expenses, managing budgets, and setting financial goals, all while offering personalized financial insights and education. By integrating features such as goal setting with progress tracking, expense logging, and budget management, KashDaddy helps users stay on top of their finances in a structured and informed manner.
 Additionally, KashDaddy incorporates biometric authentication for security, offline mode with sync for convenience, and customizable financial categories to suit individual needs. The application goes beyond basic finance tracking by delivering educational resources and tips, ensuring users can also learn how to improve their financial habits, making it a comprehensive tool for personal finance management.
