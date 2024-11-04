@@ -18,6 +18,7 @@ import com.google.firebase.messaging.RemoteMessage
 // https://www.blackbox.ai/chat/lbgB1zN
 // how to go about implementing real time notifications into android studio using kotlin
 
+// Code developed with assistance from Chat GPT
 class PushNotificationService : FirebaseMessagingService() {
     private val TAG = "FCM Service"
 

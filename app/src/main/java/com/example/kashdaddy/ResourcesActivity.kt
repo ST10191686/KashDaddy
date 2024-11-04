@@ -10,7 +10,7 @@ class ResourcesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_resources) // Ensure you are referencing the correct layout
+        setContentView(R.layout.activity_resources)
     }
 
     // Create Clickable Hyperlinks in TextView in Android with Kotlin

@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         val registerButton: Button = findViewById(R.id.btn_register)
 
         // Set up biometric components
+        // Code developed with assistance from Chat GPT
         biometricManager = BiometricManager.from(this)
         biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
             object : BiometricPrompt.AuthenticationCallback() {
