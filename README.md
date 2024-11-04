@@ -41,6 +41,10 @@ This screen is where the user will be able to select a date from the calendar an
 3.	Budgeting Goals :
 These 2 screens are for the “goals’ feature of the application. The user will be able to view all recent goals they have added, displaying details such as the amount saved along with a progress bar towards the saving goal. There is also the date of when the goal needs to be achieved and the amount of days remaining. The user can also add new goals by entering in and selecting the relevant details as displayed .
 
+4.Goals This feature allows the user to create goals to budgets toward , along with a deadline an notfications reminding you about the goal . The user can also view the progress of the create goals
+
+5.Statistics This feature allows the user to filter and view their budgeting with graphical representation up to a year. The first representation will show a simple income and expense comparison using a pie chart depending on which filter the user chooses.
+
 ## GitHub Utilization
 1.Repository Creation and Version Control
 •	A GitHub repository was created to host and manage the source code of the KashDaddy application. This repository served as the central location where all group members could collaborate on the project.
