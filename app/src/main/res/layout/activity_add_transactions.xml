@@ -129,7 +129,7 @@
     <Button
         android:id="@+id/addTransactionButton"
         android:layout_width="0dp"
-        android:layout_height="58dp"
+        android:layout_height="63dp"
         android:backgroundTint="@color/button_primary"
         android:padding="16dp"
         android:text="@string/add_transaction"
