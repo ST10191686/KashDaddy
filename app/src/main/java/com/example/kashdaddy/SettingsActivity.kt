@@ -84,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun changeLanguage(language: String) {
         val locale = when (language) {
             "Zulu" -> Locale("zu")
-            "Afrikaans" -> Locale("afr")
+            "Afrikaans" -> Locale("af")
             else -> Locale("en")
         }
         Locale.setDefault(locale)
